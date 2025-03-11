@@ -3,6 +3,7 @@ import { Montserrat } from 'next/font/google';
 import './globals.css';
 import Navbar from '@/app/components/Navbar';
 import Footer from '@/app/components/Footer';
+import ThemeProviderWrapper from './components/ThemeProviderWrapper';
 
 // Font configuration
 const montserrat = Montserrat({
@@ -28,9 +29,11 @@ export default function RootLayout({
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
       </head>
       <body className={`${montserrat.variable} font-sans`}>
-        <Navbar />
-        {children}
-        <Footer />
+        <ThemeProviderWrapper>
+          <Navbar />
+          {children}
+          <Footer />
+        </ThemeProviderWrapper>
       </body>
     </html>
   );
