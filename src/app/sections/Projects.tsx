@@ -103,7 +103,7 @@ const Projects = () => {
       description: "Instalación de sistema de sonido ambiental, cámaras de seguridad y cableado estructurado (Data).",
       category: 'integrated',
       location: 'Caracas, Distrito Capital',
-      imageSrc: "/images/projects/istikbal.jpg",
+      imageSrc: "/images/projects/tecnocarlosve.jpg",
       videoSrc: "/videos/projects/istikbal.webm"
     },
     {
@@ -112,7 +112,7 @@ const Projects = () => {
       description: "Instalación de sistema de sonido ambiental con control de volumen por zonas y conexión para eventos en vivo.",
       category: 'audio',
       location: 'Caracas, Distrito Capital',
-      imageSrc: "/images/projects/fatfit.jpg",
+      imageSrc: "/images/projects/tecnocarlosve.jpg",
       videoSrc: "/videos/projects/fatfit.webm"
     },
     {
@@ -121,7 +121,7 @@ const Projects = () => {
       description: "Cableado estructurado (Data), instalación de cámaras IP, instalación de control de acceso y sistema de sonido ambientado por zona en Adidas C.C Sambil Chacao.",
       category: 'integrated',
       location: 'Caracas, Distrito Capital',
-      imageSrc: "/images/projects/adidas.jpg",
+      imageSrc: "/images/projects/tecnocarlosve.jpg",
       videoSrc: "/videos/projects/adidas.webm"
     },
     {
@@ -130,7 +130,7 @@ const Projects = () => {
       description: "Instalación de cámaras análogas en múltiples sedes de Farmatodo para garantizar la seguridad de clientes y empleados.",
       category: 'security',
       location: 'Margarita, Nueva Esparta',
-      imageSrc: "/images/projects/farmatodo.jpg",
+      imageSrc: "/images/projects/tecnocarlosve.jpg",
       videoSrc: "/videos/projects/farmatodo.webm"
     },
     {
