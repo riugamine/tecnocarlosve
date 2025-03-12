@@ -1,6 +1,6 @@
 'use client';
 
-import { FC, useRef, useEffect } from 'react';
+import { FC } from 'react';
 import Image from 'next/image';
 import { useTheme } from '@/app/context/ThemeContext';
 
@@ -9,54 +9,14 @@ interface ServiceCardProps {
   title: string;
   description: string;
   imageSrc?: string;
-  videoSrc?: string;
 }
 
-const ServiceCard: FC<ServiceCardProps> = ({ icon, title, description, imageSrc, videoSrc }) => {
-  const videoRef = useRef<HTMLVideoElement>(null);
+const ServiceCard: FC<ServiceCardProps> = ({ icon, title, description, imageSrc }) => {
   const { theme } = useTheme();
-
-  useEffect(() => {
-    // Lazy load videos when they come into view
-    if (videoRef.current) {
-      const observer = new IntersectionObserver(
-        (entries) => {
-          entries.forEach(entry => {
-            if (entry.isIntersecting && videoRef.current) {
-              videoRef.current.load();
-              videoRef.current.play().catch(e => console.log("Auto-play prevented:", e));
-            }
-          });
-        },
-        { threshold: 0.1 }
-      );
-      
-      observer.observe(videoRef.current);
-      
-      return () => {
-        if (videoRef.current) observer.unobserve(videoRef.current);
-      };
-    }
-  }, []);
 
   return (
     <div className={`${theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-white text-gray-800'} rounded-lg shadow-lg overflow-hidden transition-transform duration-300 hover:-translate-y-2`}>
-      {videoSrc ? (
-        <div className="relative h-48 overflow-hidden">
-          <video 
-            ref={videoRef}
-            className="absolute inset-0 w-full h-full object-cover"
-            muted
-            loop
-            playsInline
-            preload="none"
-            poster={imageSrc}
-          >
-            <source src={videoSrc} type="video/mp4" />
-            Your browser does not support the video tag.
-          </video>
-        </div>
-      ) : imageSrc ? (
+      {imageSrc && (
         <div className="relative h-48">
           <Image 
             src={imageSrc} 
@@ -67,7 +27,7 @@ const ServiceCard: FC<ServiceCardProps> = ({ icon, title, description, imageSrc,
             loading="lazy"
           />
         </div>
-      ) : null}
+      )}
       <div className="p-6">
         <div className="text-primary text-4xl mb-4">
           <i className={icon}></i>
@@ -87,29 +47,25 @@ const Services = () => {
       icon: "fas fa-network-wired",
       title: "Redes y Cableado Estructurado",
       description: "Instalamos y configuramos todo tipo de redes para tu hogar o negocio. Desde routers y switches hasta puntos de acceso Wi-Fi para una conexión estable y segura en todos tus dispositivos.",
-      imageSrc: "/images/services/networking.jpg",
-      videoSrc: "/videos/services/networking.mp4"
-    },
-    {
-      icon: "fas fa-video",
-      title: "Sistemas de Seguridad",
-      description: "Protege lo que más valoras con nuestras soluciones de videovigilancia. Instalamos cámaras analógicas e IP con monitoreo remoto desde tu celular para que puedas ver lo que sucede en tiempo real.",
-      imageSrc: "/images/services/security.jpg",
-      videoSrc: "/videos/services/security.mp4" // Agrega la ruta a tu video
+      imageSrc: "/images/services/networking.jpg"
     },
     {
       icon: "fas fa-volume-up",
       title: "Instalación de Sonido",
       description: "Creamos ambientes sonoros perfectos con sistemas de audio de alta calidad. Instalamos amplificadores, altavoces y controles de volumen para cada espacio de tu hogar o negocio.",
-      imageSrc: "/images/services/audio.jpg",
-      videoSrc: "/videos/services/audio.mp4" // Agrega la ruta a tu video
+      imageSrc: "/images/services/audio.jpg"
+    },
+    {
+      icon: "fas fa-video",
+      title: "Sistemas de Seguridad",
+      description: "Protege lo que más valoras con nuestras soluciones de videovigilancia. Instalamos cámaras analógicas e IP con monitoreo remoto desde tu celular para que puedas ver lo que sucede en tiempo real.",
+      imageSrc: "/images/services/security.jpg"
     },
     {
       icon: "fas fa-tools",
       title: "Soporte Técnico",
       description: "Ofrecemos asistencia técnica para todos nuestros servicios. Nuestro equipo está disponible para resolver cualquier problema que puedas tener con tus sistemas de conectividad o seguridad.",
       imageSrc: "/images/services/support.jpg"
-      // Este servicio no tiene video
     }
   ];
 
@@ -131,7 +87,6 @@ const Services = () => {
               title={service.title}
               description={service.description}
               imageSrc={service.imageSrc}
-              videoSrc={service.videoSrc}
             />
           ))}
         </div>
