@@ -18,16 +18,13 @@ const Footer = () => {
               Soluciones integrales en conectividad y seguridad para hogares y empresas en Venezuela.
             </p>
             <div className="flex space-x-4">
-              <a href="#" className="text-white hover:text-primary transition-colors">
+              <a href="https://www.facebook.com/share/1DM8FThPZT/?mibextid=wwXIfr" className="text-white hover:text-primary transition-colors">
                 <i className="fab fa-facebook-f"></i>
               </a>
-              <a href="#" className="text-white hover:text-primary transition-colors">
+              <a href="https://www.instagram.com/tecnocarlosve" className="text-white hover:text-primary transition-colors">
                 <i className="fab fa-instagram"></i>
               </a>
-              <a href="#" className="text-white hover:text-primary transition-colors">
-                <i className="fab fa-twitter"></i>
-              </a>
-              <a href="#" className="text-white hover:text-primary transition-colors">
+              <a href="https://wa.me/584248443487" className="text-white hover:text-primary transition-colors">
                 <i className="fab fa-whatsapp"></i>
               </a>
             </div>
@@ -98,11 +95,11 @@ const Footer = () => {
             <ul className="space-y-3">
               <li className="flex items-start">
                 <i className="fas fa-map-marker-alt mt-1 mr-3 text-primary"></i>
-                <span>Av. Santiago Mariño, C.C. Rattan Plaza, Local 5, Porlamar, Isla de Margarita, Venezuela</span>
+                <span>6301, Porlamar 6301, Nueva Esparta, Venezuela</span>
               </li>
               <li className="flex items-start">
                 <i className="fas fa-phone mt-1 mr-3 text-primary"></i>
-                <span>+58 123 456 7890</span>
+                <span>+58 424 84 43 487</span>
               </li>
               <li className="flex items-start">
                 <i className="fas fa-envelope mt-1 mr-3 text-primary"></i>
