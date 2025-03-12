@@ -3,9 +3,11 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useRef } from 'react';
+import { useTheme } from '@/app/context/ThemeContext';
 
 const Hero = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const { theme } = useTheme();
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -23,12 +25,22 @@ const Hero = () => {
     resizeCanvas();
     window.addEventListener('resize', resizeCanvas);
 
-    // Wave properties
-    const waves = [
-      { y: 0.3, length: 0.5, amplitude: 50, speed: 0.03, color: '#2DD4BF' },
-      { y: 0.4, length: 0.7, amplitude: 30, speed: 0.045, color: '#14B8A6' },
-      { y: 0.5, length: 0.3, amplitude: 40, speed: 0.06, color: '#0F766E' },
-    ];
+    // Wave properties based on theme
+    const getWaveColors = () => {
+      return theme === 'dark' 
+        ? [
+            { y: 0.3, length: 0.5, amplitude: 50, speed: 0.03, color: '#2DD4BF' },
+            { y: 0.4, length: 0.7, amplitude: 30, speed: 0.045, color: '#14B8A6' },
+            { y: 0.5, length: 0.3, amplitude: 40, speed: 0.06, color: '#0F766E' },
+          ]
+        : [
+            { y: 0.3, length: 0.5, amplitude: 50, speed: 0.03, color: '#38BDF8' },
+            { y: 0.4, length: 0.7, amplitude: 30, speed: 0.045, color: '#0EA5E9' },
+            { y: 0.5, length: 0.3, amplitude: 40, speed: 0.06, color: '#0284C7' },
+          ];
+    };
+
+    const waves = getWaveColors();
 
     let animationFrameId: number;
     let time = 0;
@@ -37,10 +49,15 @@ const Hero = () => {
     const animate = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       
-      // Create gradient background
+      // Create gradient background based on theme
       const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
-      gradient.addColorStop(0, '#0f172a'); // Dark blue
-      gradient.addColorStop(1, '#1e293b'); // Slightly lighter blue
+      if (theme === 'dark') {
+        gradient.addColorStop(0, '#0f172a'); // Dark blue
+        gradient.addColorStop(1, '#1e293b'); // Slightly lighter blue
+      } else {
+        gradient.addColorStop(0, '#f0f9ff'); // Light blue
+        gradient.addColorStop(1, '#e0f2fe'); // Slightly darker light blue
+      }
       ctx.fillStyle = gradient;
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
@@ -82,7 +99,7 @@ const Hero = () => {
       window.removeEventListener('resize', resizeCanvas);
       cancelAnimationFrame(animationFrameId);
     };
-  }, []);
+  }, [theme]); // Correctly reference the theme variable
 
   // WhatsApp link with phone number
   const whatsappLink = "https://wa.me/584248443487";
@@ -99,16 +116,16 @@ const Hero = () => {
       {/* Content */}
       <div className="container mx-auto px-4 z-10 py-20 md:py-0">
         <div className="max-w-xl md:max-w-2xl">
-          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4 leading-tight">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white dark:text-white mb-4 leading-tight">
             Soluciones Integrales en Conectividad y Seguridad
           </h1>
-          <p className="text-lg md:text-xl text-white/90 mb-8">
+          <p className="text-lg md:text-xl text-white dark:text-white/90 mb-8">
             Expertos en instalación y configuración de redes, sistemas de seguridad y soluciones de audio para su hogar o negocio.
           </p>
           <div className="flex flex-col sm:flex-row space-y-6 sm:space-y-0 sm:space-x-6">
             <Link 
               href="#servicios" 
-              className="btn bg-white text-primary hover:bg-gray-100 text-center py-2 px-4 text-base w-auto inline-block"
+              className="btn bg-white dark:bg-white text-primary dark:text-primary hover:bg-gray-100 dark:hover:bg-gray-100 text-center py-2 px-4 text-base w-auto inline-block"
             >
               Nuestros Servicios
             </Link>
@@ -116,7 +133,7 @@ const Hero = () => {
               href={whatsappLink} 
               target="_blank" 
               rel="noopener noreferrer"
-              className="btn border-2 border-white text-white hover:bg-white hover:text-primary transition-all text-center flex items-center justify-center py-2 px-4 text-base w-auto"
+              className="btn border-2 border-white dark:border-white text-white dark:text-white hover:bg-white dark:hover:bg-white hover:text-primary dark:hover:text-primary transition-all text-center flex items-center justify-center py-2 px-4 text-base w-auto"
             >
               Contáctanos
             </a>

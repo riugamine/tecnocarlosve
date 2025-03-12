@@ -30,7 +30,7 @@ const Navbar = () => {
           <div className="md:hidden">
             <button 
               onClick={() => setIsOpen(!isOpen)}
-              className="text-gray-800 dark:text-white focus:outline-none"
+              className={`${theme === 'dark' ? 'text-white' : 'text-gray-800'} focus:outline-none`}
             >
               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                 {isOpen ? (
@@ -57,15 +57,15 @@ const Navbar = () => {
 
           {/* Desktop Menu */}
           <div className="hidden md:flex space-x-8 items-center">
-            <Link href="#servicios" className="relative text-gray-800 dark:text-white hover:text-primary transition-colors duration-300 py-2 group font-bold">
+            <Link href="#servicios" className={`relative ${theme === 'dark' ? 'text-white' : 'text-gray-800'} hover:text-primary transition-colors duration-300 py-2 group font-bold`}>
               <span className="relative z-10">Servicios</span>
               <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full"></span>
             </Link>
-            <Link href="#proyectos" className="relative text-gray-800 dark:text-white hover:text-primary transition-colors duration-300 py-2 group font-bold">
+            <Link href="#proyectos" className={`relative ${theme === 'dark' ? 'text-white' : 'text-gray-800'} hover:text-primary transition-colors duration-300 py-2 group font-bold`}>
               <span className="relative z-10">Proyectos</span>
               <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full"></span>
             </Link>
-            <Link href="#cobertura" className="relative text-gray-800 dark:text-white hover:text-primary transition-colors duration-300 py-2 group font-bold">
+            <Link href="#cobertura" className={`relative ${theme === 'dark' ? 'text-white' : 'text-gray-800'} hover:text-primary transition-colors duration-300 py-2 group font-bold`}>
               <span className="relative z-10">Cobertura</span>
               <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full"></span>
             </Link>
@@ -115,13 +115,13 @@ const Navbar = () => {
         {isOpen && (
           <div className="md:hidden mt-4 pb-4">
             <div className="flex flex-col space-y-4">
-              <Link href="#servicios" className="text-gray-800 dark:text-white hover:text-primary transition-colors py-2 border-b border-gray-200 dark:border-gray-800 flex justify-center items-center font-bold" onClick={() => setIsOpen(false)}>
+              <Link href="#servicios" className={`${theme === 'dark' ? 'text-white' : 'text-gray-800'} hover:text-primary transition-colors py-2 border-b border-gray-200 dark:border-gray-800 flex justify-center items-center font-bold`} onClick={() => setIsOpen(false)}>
                 Servicios
               </Link>
-              <Link href="#proyectos" className="text-gray-800 dark:text-white hover:text-primary transition-colors py-2 border-b border-gray-200 dark:border-gray-800 flex justify-center items-center font-bold" onClick={() => setIsOpen(false)}>
+              <Link href="#proyectos" className={`${theme === 'dark' ? 'text-white' : 'text-gray-800'} hover:text-primary transition-colors py-2 border-b border-gray-200 dark:border-gray-800 flex justify-center items-center font-bold`} onClick={() => setIsOpen(false)}>
                 Proyectos
               </Link>
-              <Link href="#cobertura" className="text-gray-800 dark:text-white hover:text-primary transition-colors py-2 border-b border-gray-200 dark:border-gray-800 flex justify-center items-center font-bold" onClick={() => setIsOpen(false)}>
+              <Link href="#cobertura" className={`${theme === 'dark' ? 'text-white' : 'text-gray-800'} hover:text-primary transition-colors py-2 border-b border-gray-200 dark:border-gray-800 flex justify-center items-center font-bold`} onClick={() => setIsOpen(false)}>
                 Cobertura
               </Link>
               <Link href="#contacto" className="btn btn-primary text-center mt-2 transform hover:scale-105 transition-transform duration-300 font-bold" onClick={() => setIsOpen(false)}>
