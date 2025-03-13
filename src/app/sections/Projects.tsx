@@ -3,7 +3,6 @@
 import { useState, useRef, useEffect } from 'react';
 import Image from 'next/image';
 import { useTheme } from '@/app/context/ThemeContext';
-import { CldVideoPlayer } from 'next-cloudinary';
 
 // Define project categories
 type ProjectCategory = 'all' | 'networks' | 'security' | 'audio' | 'integrated';
@@ -28,8 +27,8 @@ interface ProjectCardProps {
 const ProjectCard = ({ project, activeCategory }: ProjectCardProps) => {
   const { theme } = useTheme();
   const videoRef = useRef<HTMLVideoElement>(null);
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [isVisible, setIsVisible] = useState(false);
+  const [, setIsPlaying] = useState(false);
+  const [, setIsVisible] = useState(false);
   const [isVideoLoaded, setIsVideoLoaded] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const playerRef = useRef<string>(`video-${project.id}`);
@@ -94,7 +93,7 @@ const ProjectCard = ({ project, activeCategory }: ProjectCardProps) => {
   };
 
   // Handle video error
-  const handleVideoError = (e: any) => {
+  const handleVideoError = (e: React.SyntheticEvent<HTMLVideoElement, Event>) => {
     console.error("Video error for:", project.title, e);
     setIsLoading(false);
   };
