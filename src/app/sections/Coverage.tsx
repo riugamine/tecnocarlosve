@@ -62,6 +62,14 @@ const Coverage = () => {
       position: [10.4806, -66.9036],
       address: "Caracas, Distrito Capital",
       phone: "+58 424-8443487"
+    },
+    {
+      id: 4,
+      name: "Barquisimeto, Lara",
+      description: "Servicios técnicos y de instalación en toda la ciudad",
+      position: [10.0678, -69.3470],
+      address: "Barquisimeto, Estado Lara",
+      phone: "+58 424-8443487"
     }
   ];
 
