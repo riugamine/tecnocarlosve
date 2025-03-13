@@ -49,7 +49,8 @@ const Contact = () => {
                   <h4 className={`font-bold text-lg ${theme === 'dark' ? 'text-white' : ''}`}>Ubicaciones</h4>
                   <p className={`${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'} text-sm leading-relaxed mb-2`}>Porlamar, Isla de Margarita</p>
                   <p className={`${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'} text-sm leading-relaxed mb-2`}>Maracay, Estado Aragua</p>
-                  <p className={`${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'} text-sm leading-relaxed`}>Caracas, Distrito Capital</p>
+                  <p className={`${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'} text-sm leading-relaxed mb-2`}>Caracas, Distrito Capital</p>
+                  <p className={`${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'} text-sm leading-relaxed`}>Barquisimeto, Estado Lara</p>
                 </div>
               </div>
               
