@@ -18,7 +18,7 @@ const Contact = () => {
         <div className="max-w-3xl mx-auto">
           {/* Contact Information Card */}
           <div className={`${theme === 'dark' ? 'bg-gray-900' : 'bg-secondary'} p-8 rounded-lg shadow-md`}>
-            <h3 className={`text-xl font-bold mb-8 ${theme === 'dark' ? 'text-white' : ''}`}>Información de Contacto</h3>
+            <h3 className={`text-xl font-bold mb-8 ${theme === 'dark' ? 'text-white' : ''} text-center`}>Información de contacto</h3>
             
             <div className="space-y-8">
               <div className="flex items-start">
@@ -58,7 +58,7 @@ const Contact = () => {
                   <i className="fas fa-clock text-xl"></i>
                 </div>
                 <div>
-                  <h4 className={`font-bold text-lg ${theme === 'dark' ? 'text-white' : ''}`}>Horario de Atención</h4>
+                  <h4 className={`font-bold text-lg ${theme === 'dark' ? 'text-white' : ''}`}>Horario de atención</h4>
                   <p className={`${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'} text-sm leading-relaxed mb-2`}>Lunes a Viernes: 8:00 AM - 6:00 PM</p>
                   <p className={`${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'} text-sm leading-relaxed`}>Sábados: 9:00 AM - 1:00 PM</p>
                 </div>
@@ -66,8 +66,8 @@ const Contact = () => {
             </div>
             
             <div className="mt-10 pt-8 border-t border-gray-200 dark:border-gray-700">
-              <h4 className={`font-bold text-lg mb-4 ${theme === 'dark' ? 'text-white' : ''}`}>Síguenos en Redes Sociales</h4>
-              <div className="flex flex-wrap gap-4">
+              <h4 className={`font-bold text-lg mb-4 ${theme === 'dark' ? 'text-white' : ''} text-center sm:text-left`}>Síguenos en redes sociales</h4>
+              <div className="flex flex-wrap gap-4 justify-center sm:justify-start">
                 <a 
                   href="https://www.facebook.com/share/1DM8FThPZT/?mibextid=wwXIfr" 
                   target="_blank" 
@@ -104,7 +104,7 @@ const Contact = () => {
                   <i className="fas fa-info-circle"></i>
                 </div>
                 <div>
-                  <h5 className={`font-bold text-lg mb-2 ${theme === 'dark' ? 'text-white' : ''}`}>Respuesta Rápida</h5>
+                  <h5 className={`font-bold text-lg mb-2 ${theme === 'dark' ? 'text-white' : ''}`}>Respuesta rápida</h5>
                   <p className={`${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'} text-sm leading-relaxed`}>
                     Para una atención más rápida, contáctanos directamente por WhatsApp o llámanos al número de teléfono indicado. 
                     Estamos comprometidos a responder a todas las consultas en el menor tiempo posible.

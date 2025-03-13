@@ -88,7 +88,6 @@ const ProjectCard = ({ project, activeCategory }: ProjectCardProps) => {
 
   // Handle video load event
   const handleVideoLoaded = () => {
-    console.log("Video metadata loaded for:", project.title);
     // Start showing the video as soon as metadata is loaded
     setIsVideoLoaded(true);
     setIsLoading(false);
@@ -183,30 +182,30 @@ const Projects = () => {
   const projects: Project[] = [
     {
       id: 1,
-      title: "Sistema de Audio para Istikbal",
+      title: "Sistema de audio para Istikbal",
       description: "Instalación de sistema de sonido ambiental, cámaras de seguridad y cableado estructurado (Data).",
       category: 'integrated',
       location: 'Caracas, Distrito Capital',
       imageSrc: "/images/projects/tecnocarlosve.jpg",
-      cloudinaryVideoId: "https://res.cloudinary.com/da95ksabl/video/upload/v1741887137/Istikbal_zygdtw.webm" // Replace with your actual Cloudinary ID
+      cloudinaryVideoId: "https://res.cloudinary.com/da95ksabl/video/upload/v1741887137/Istikbal_zygdtw.webm"
     },
     {
       id: 2,
-      title: "Sistema de Audio para Restaurante FatFit",
+      title: "Sistema de audio para restaurante FatFit",
       description: "Instalación de sistema de sonido ambiental con control de volumen por zonas y conexión para eventos en vivo.",
       category: 'audio',
       location: 'Caracas, Distrito Capital',
       imageSrc: "/images/projects/tecnocarlosve.jpg",
-      cloudinaryVideoId: "https://res.cloudinary.com/da95ksabl/video/upload/v1741887136/Fatfit_a0ranp.webm" // Replace with your actual Cloudinary ID
+      cloudinaryVideoId: "https://res.cloudinary.com/da95ksabl/video/upload/v1741887136/Fatfit_a0ranp.webm"
     },
     {
       id: 3,
-      title: "Instalación Integral para Adidas",
+      title: "Instalación integral para Adidas",
       description: "Cableado estructurado (Data), instalación de cámaras IP, instalación de control de acceso y sistema de sonido ambientado por zona en Adidas C.C Sambil Chacao.",
       category: 'integrated',
       location: 'Caracas, Distrito Capital',
       imageSrc: "/images/projects/tecnocarlosve.jpg",
-      cloudinaryVideoId: "https://res.cloudinary.com/da95ksabl/video/upload/v1741887136/Adidas_eocfpb.webm" // Replace with your actual Cloudinary ID
+      cloudinaryVideoId: "https://res.cloudinary.com/da95ksabl/video/upload/v1741887136/Adidas_eocfpb.webm"
     },
     {
       id: 4,
@@ -215,16 +214,16 @@ const Projects = () => {
       category: 'security',
       location: 'Margarita, Nueva Esparta',
       imageSrc: "/images/projects/tecnocarlosve.jpg",
-      cloudinaryVideoId: "https://res.cloudinary.com/da95ksabl/video/upload/v1741887136/Farmatodo_zzrtli.webm" // Replace with your actual Cloudinary ID
+      cloudinaryVideoId: "https://res.cloudinary.com/da95ksabl/video/upload/v1741887136/Farmatodo_zzrtli.webm"
     },
     {
       id: 5,
-      title: "Infraestructura para Supermercado Más x Menos",
+      title: "Infraestructura para supermercado Más x Menos",
       description: "Instalación de cableado estructurado, redes Wifi y cámaras IP en la sede del C.C Maracay Plaza.",
       category: 'networks',
       location: 'Maracay, Aragua',
       imageSrc: "/images/projects/tecnocarlosve.jpg",
-      cloudinaryVideoId: "https://res.cloudinary.com/da95ksabl/video/upload/v1741887136/Masxmenos_udfw6c.webm" // Replace with your actual Cloudinary ID
+      cloudinaryVideoId: "https://res.cloudinary.com/da95ksabl/video/upload/v1741887136/Masxmenos_udfw6c.webm"
     }
   ];
 
@@ -236,7 +235,7 @@ const Projects = () => {
   // Category buttons
   const categories = [
     { id: 'all', label: 'Todos' },
-    { id: 'integrated', label: 'Soluciones Integrales' },
+    { id: 'integrated', label: 'Soluciones integrales' },
     { id: 'networks', label: 'Redes' },
     { id: 'security', label: 'Seguridad' },
     { id: 'audio', label: 'Audio' }
@@ -246,7 +245,7 @@ const Projects = () => {
     <section id="proyectos" className={`section ${theme === 'dark' ? 'bg-gray-800' : 'bg-white'} py-16 md:py-24`}>
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
-          <h2 className={`text-3xl md:text-4xl font-bold mb-4 ${theme === 'dark' ? 'text-white' : ''}`}>Nuestros Proyectos</h2>
+          <h2 className={`text-3xl md:text-4xl font-bold mb-4 ${theme === 'dark' ? 'text-white' : ''}`}>Nuestros proyectos</h2>
           <p className={`${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'} max-w-2xl mx-auto font-light text-lg`}>
             Conoce algunos de nuestros trabajos más destacados en instalación de redes, sistemas de seguridad y soluciones de audio.
           </p>
@@ -286,8 +285,8 @@ const Projects = () => {
           <p className={`${theme === 'dark' ? 'text-gray-300' : 'text-gray-700'} mb-6 max-w-3xl mx-auto font-light text-lg`}>
             Estos son solo algunos ejemplos de nuestros proyectos. Contáctanos para conocer más sobre cómo podemos ayudarte con tus necesidades específicas.
           </p>
-          <a href="#contacto" className="btn btn-primary uppercase font-bold tracking-wide">
-            Solicitar Información
+          <a href="#contacto" className="btn btn-primary uppercase font-light tracking-wide">
+            SOLICITAR INFORMACIÓN
           </a>
         </div>
       </div>

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import dynamic from 'next/dynamic';
 import 'leaflet/dist/leaflet.css';
 import { useTheme } from '@/app/context/ThemeContext';
@@ -69,7 +69,12 @@ const Coverage = () => {
   const [selectedLocation, setSelectedLocation] = useState<Location | null>(null);
   
   // State to track if component is mounted (client-side)
-  const [isMounted] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
+  
+  // Set isMounted to true after component mounts
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
   
   // Default center position and zoom level
   const defaultCenter: [number, number] = [10.4806, -66.9036];
@@ -128,7 +133,7 @@ const Coverage = () => {
     <section id="cobertura" className={`section ${theme === 'dark' ? 'bg-gray-900' : 'bg-secondary'} py-16 md:py-24`}>
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
-          <h2 className={`text-3xl md:text-4xl font-bold mb-4 ${theme === 'dark' ? 'text-white' : ''}`}>Áreas de Cobertura</h2>
+          <h2 className={`text-3xl md:text-4xl font-bold mb-4 ${theme === 'dark' ? 'text-white' : ''}`}>Áreas de cobertura</h2>
           <p className={`${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'} max-w-2xl mx-auto font-light text-lg`}>
             Ofrecemos nuestros servicios en las siguientes localidades de Venezuela. Si tu ubicación no aparece, contáctanos para verificar disponibilidad.
           </p>
@@ -137,7 +142,7 @@ const Coverage = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
           {/* Locations list */}
           <div className={`${theme === 'dark' ? 'bg-gray-800' : 'bg-white'} p-6 rounded-lg shadow-md`}>
-            <h3 className={`text-xl font-bold mb-4 ${theme === 'dark' ? 'text-white' : ''}`}>Nuestras Ubicaciones</h3>
+            <h3 className={`text-xl font-bold mb-4 ${theme === 'dark' ? 'text-white' : ''}`}>Nuestras ubicaciones</h3>
             <div className="space-y-6">
               {locations.map((location) => (
                 <div 
@@ -181,7 +186,15 @@ const Coverage = () => {
           </div>
           
           {/* Map - Only render when client-side */}
-          <div className="h-[500px] rounded-lg overflow-hidden shadow-lg">
+          <div className="h-[500px] rounded-lg overflow-hidden shadow-lg relative">
+            {!isMounted && (
+              <div className="absolute inset-0 flex items-center justify-center bg-gray-100 dark:bg-gray-800">
+                <div className="flex flex-col items-center justify-center">
+                  <div className="w-11 h-11 rounded-full bg-primary animate-pulse mb-3"></div>
+                  <p className={`text-sm font-medium ${theme === 'dark' ? 'text-white' : 'text-gray-700'}`}>Cargando mapa...</p>
+                </div>
+              </div>
+            )}
             <Map />
           </div>
         </div>

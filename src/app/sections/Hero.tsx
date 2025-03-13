@@ -116,7 +116,7 @@ const Hero = () => {
       <div className="container mx-auto px-4 z-10 py-20 md:py-0">
         <div className="max-w-xl md:max-w-2xl">
           <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white dark:text-white mb-4 leading-tight">
-            Soluciones Integrales en Conectividad y Seguridad
+            Soluciones integrales en conectividad y seguridad
           </h1>
           <p className="text-lg md:text-xl text-white dark:text-white/90 mb-8">
             Expertos en instalación y configuración de redes, sistemas de seguridad y soluciones de audio para su hogar o negocio.
@@ -124,17 +124,17 @@ const Hero = () => {
           <div className="flex flex-col sm:flex-row space-y-6 sm:space-y-0 sm:space-x-6">
             <Link 
               href="#servicios" 
-              className="btn bg-white dark:bg-white text-primary dark:text-primary hover:bg-gray-100 dark:hover:bg-gray-100 text-center py-2 px-4 text-base w-auto inline-block"
+              className="btn bg-white dark:bg-white text-primary dark:text-primary hover:bg-gray-100 dark:hover:bg-gray-100 text-center py-2 px-4 text-base w-auto inline-block font-light uppercase"
             >
-              Nuestros Servicios
+              NUESTROS SERVICIOS
             </Link>
             <a 
               href={whatsappLink} 
               target="_blank" 
               rel="noopener noreferrer"
-              className="btn border-2 border-white dark:border-white text-white dark:text-white hover:bg-white dark:hover:bg-white hover:text-primary dark:hover:text-primary transition-all text-center flex items-center justify-center py-2 px-4 text-base w-auto"
+              className="btn border-2 border-white dark:border-white text-white dark:text-white hover:bg-white dark:hover:bg-white hover:text-primary dark:hover:text-primary transition-all text-center flex items-center justify-center py-2 px-4 text-base w-auto font-light uppercase"
             >
-              Contáctanos
+              CONTÁCTANOS
             </a>
           </div>
         </div>
