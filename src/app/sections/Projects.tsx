@@ -25,29 +25,57 @@ interface ProjectCardProps {
 const ProjectCard = ({ project }: ProjectCardProps) => {
   const { theme } = useTheme();
   const videoRef = useRef<HTMLVideoElement>(null);
+  const [isPlaying, setIsPlaying] = useState(false);
 
   useEffect(() => {
     // Lazy load videos when they come into view
     if (videoRef.current && project.videoSrc) {
+      const videoElement = videoRef.current;
+      
       const observer = new IntersectionObserver(
         (entries) => {
           entries.forEach(entry => {
-            if (entry.isIntersecting && videoRef.current) {
-              videoRef.current.load();
-              videoRef.current.play().catch(e => console.log("Auto-play prevented:", e));
+            if (entry.isIntersecting && videoElement) {
+              videoElement.load();
+              videoElement.play()
+                .then(() => setIsPlaying(true))
+                .catch(e => console.log("Auto-play prevented:", e));
+            } else if (videoElement) {
+              videoElement.pause();
+              setIsPlaying(false);
             }
           });
         },
         { threshold: 0.1 }
       );
       
-      observer.observe(videoRef.current);
+      observer.observe(videoElement);
       
       return () => {
-        if (videoRef.current) observer.unobserve(videoRef.current);
+        observer.unobserve(videoElement);
+        videoElement.pause();
       };
     }
   }, [project.videoSrc]);
+
+  // Effect to handle play/pause based on isPlaying state
+  useEffect(() => {
+    const videoElement = videoRef.current;
+    
+    if (videoElement) {
+      if (isPlaying) {
+        videoElement.play().catch(error => console.error('Error playing video:', error));
+      } else {
+        videoElement.pause();
+      }
+    }
+    
+    return () => {
+      if (videoElement) {
+        videoElement.pause();
+      }
+    };
+  }, [isPlaying]);
 
   return (
     <div className={`${theme === 'dark' ? 'bg-gray-700' : 'bg-white'} rounded-lg shadow-lg overflow-hidden h-full flex flex-col`}>

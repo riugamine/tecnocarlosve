@@ -1,8 +1,7 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import dynamic from 'next/dynamic';
-import Image from 'next/image';
 import 'leaflet/dist/leaflet.css';
 import { useTheme } from '@/app/context/ThemeContext';
 
@@ -70,41 +69,29 @@ const Coverage = () => {
   const [selectedLocation, setSelectedLocation] = useState<Location | null>(null);
   
   // State to track if component is mounted (client-side)
-  const [isMounted, setIsMounted] = useState(false);
+  const [isMounted] = useState(false);
   
   // Default center position and zoom level
   const defaultCenter: [number, number] = [10.4806, -66.9036];
   const defaultZoom = 6;
   
-  // Fix for Leaflet icon issue and handle client-side mounting
-  useEffect(() => {
-    setIsMounted(true);
-    
-    if (typeof window !== 'undefined') {
-      // This is needed to fix the marker icon issue with Leaflet in React
-      const L = require('leaflet');
-      
-      // Fix the icon paths
-      delete L.Icon.Default.prototype._getIconUrl;
-      L.Icon.Default.mergeOptions({
-        iconRetinaUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png',
-        iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png',
-        shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
-      });
-    }
-  }, []);
 
   // Create a map component that only renders on client-side
   const Map = () => {
     if (!isMounted) return null;
-    
+    interface MapProps {
+      center: [number, number];
+      zoom: number;
+      style: { height: string; width: string };
+      scrollWheelZoom: boolean;
+    }
     // Use type assertion if TypeScript still complains
-    const mapProps = {
+    const mapProps: MapProps = {
       center: selectedLocation?.position || defaultCenter,
       zoom: selectedLocation ? 13 : defaultZoom,
       style: { height: "100%", width: "100%" },
       scrollWheelZoom: true
-    } as any;
+    };
     
     return (
       <MapContainer {...mapProps}>
