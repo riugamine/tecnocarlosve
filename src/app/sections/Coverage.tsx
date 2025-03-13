@@ -98,17 +98,20 @@ const Coverage = () => {
   const Map = () => {
     if (!isMounted) return null;
     
+    // Use type assertion if TypeScript still complains
+    const mapProps = {
+      center: selectedLocation?.position || defaultCenter,
+      zoom: selectedLocation ? 13 : defaultZoom,
+      style: { height: "100%", width: "100%" },
+      scrollWheelZoom: true
+    } as any;
+    
     return (
-      <MapContainer 
-        center={selectedLocation?.position || defaultCenter}
-        zoom={selectedLocation ? 13 : defaultZoom}
-        style={{ height: "100%", width: "100%" }}
-      >
+      <MapContainer {...mapProps}>
         <TileLayer
           url={theme === 'dark' 
             ? "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png" 
             : "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"}
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         />
         {locations.map((location) => (
           <Marker 
