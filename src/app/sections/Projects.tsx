@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect } from 'react';
 import Image from 'next/image';
 import { useTheme } from '@/app/context/ThemeContext';
+import { CldVideoPlayer } from 'next-cloudinary';
 
 // Define project categories
 type ProjectCategory = 'all' | 'networks' | 'security' | 'audio' | 'integrated';
@@ -16,31 +17,58 @@ interface Project {
   location: string;
   imageSrc: string;
   videoSrc?: string;
+  cloudinaryVideoId?: string; // New field for Cloudinary video ID
 }
 
 interface ProjectCardProps {
   project: Project;
+  activeCategory: ProjectCategory; // Add this prop
 }
 
-const ProjectCard = ({ project }: ProjectCardProps) => {
+const ProjectCard = ({ project, activeCategory }: ProjectCardProps) => {
   const { theme } = useTheme();
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
+  const [isVideoLoaded, setIsVideoLoaded] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const playerRef = useRef<string>(`video-${project.id}`);
+
+  // Reset loading state when category changes
+  useEffect(() => {
+    setIsLoading(true);
+    setIsVideoLoaded(false);
+  }, [activeCategory]);
+
+  // Add this new effect to handle progressive loading
+  useEffect(() => {
+    if (project.cloudinaryVideoId) {
+      // Set a timeout to start showing the video even if not fully loaded
+      const progressiveLoadTimer = setTimeout(() => {
+        setIsVideoLoaded(true);
+        setIsLoading(false);
+      }, 1000); // Show after 1 second regardless of load state
+      
+      return () => clearTimeout(progressiveLoadTimer);
+    }
+  }, [project.cloudinaryVideoId, activeCategory]);
 
   useEffect(() => {
     // Lazy load videos when they come into view
-    if (videoRef.current && project.videoSrc) {
+    if (videoRef.current && project.videoSrc && !project.cloudinaryVideoId) {
       const videoElement = videoRef.current;
       
       const observer = new IntersectionObserver(
         (entries) => {
           entries.forEach(entry => {
-            if (entry.isIntersecting && videoElement) {
+            if (entry.isIntersecting) {
+              setIsVisible(true);
               videoElement.load();
               videoElement.play()
                 .then(() => setIsPlaying(true))
                 .catch(e => console.log("Auto-play prevented:", e));
-            } else if (videoElement) {
+            } else {
+              setIsVisible(false);
               videoElement.pause();
               setIsPlaying(false);
             }
@@ -56,31 +84,56 @@ const ProjectCard = ({ project }: ProjectCardProps) => {
         videoElement.pause();
       };
     }
-  }, [project.videoSrc]);
+  }, [project.videoSrc, project.cloudinaryVideoId]);
 
-  // Effect to handle play/pause based on isPlaying state
-  useEffect(() => {
-    const videoElement = videoRef.current;
-    
-    if (videoElement) {
-      if (isPlaying) {
-        videoElement.play().catch(error => console.error('Error playing video:', error));
-      } else {
-        videoElement.pause();
-      }
-    }
-    
-    return () => {
-      if (videoElement) {
-        videoElement.pause();
-      }
-    };
-  }, [isPlaying]);
+  // Handle video load event
+  const handleVideoLoaded = () => {
+    console.log("Video metadata loaded for:", project.title);
+    // Start showing the video as soon as metadata is loaded
+    setIsVideoLoaded(true);
+    setIsLoading(false);
+  };
+
+  // Handle video error
+  const handleVideoError = (e: any) => {
+    console.error("Video error for:", project.title, e);
+    setIsLoading(false);
+  };
 
   return (
     <div className={`${theme === 'dark' ? 'bg-gray-700' : 'bg-white'} rounded-lg shadow-lg overflow-hidden h-full flex flex-col`}>
       <div className="relative h-64 overflow-hidden">
-        {project.videoSrc ? (
+        {/* Simplified loading indicator - only pulsing circle */}
+        {project.cloudinaryVideoId && isLoading && (
+          <div className="absolute inset-0 z-10 flex items-center justify-center bg-gray-800">
+            <div className="flex flex-col items-center justify-center">
+              <div className="w-11 h-11 rounded-full bg-primary animate-pulse mb-3"></div>
+              <p className="text-white text-sm font-medium">Cargando video...</p>
+            </div>
+          </div>
+        )}
+        
+        {project.cloudinaryVideoId ? (
+          // Use regular video tag with cloudinary URL
+          <video 
+            id={playerRef.current}
+            className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-300 ${isVideoLoaded ? 'opacity-100' : 'opacity-0'}`}
+            muted
+            loop
+            playsInline
+            autoPlay
+            preload="auto"
+            poster={project.imageSrc}
+            onLoadedMetadata={handleVideoLoaded}
+            onError={handleVideoError}
+            key={`video-${project.id}-${activeCategory}-${isVideoLoaded ? 'loaded' : 'loading'}`}
+          >
+            <source src={project.cloudinaryVideoId} type="video/webm" />
+            <source src={project.cloudinaryVideoId.replace('.webm', '.mp4')} type="video/mp4" />
+            Your browser does not support the video tag.
+          </video>
+        ) : project.videoSrc ? (
+          // Fallback to regular video if no cloudinaryVideoId but videoSrc exists
           <video 
             ref={videoRef}
             className="absolute inset-0 w-full h-full object-cover"
@@ -94,16 +147,19 @@ const ProjectCard = ({ project }: ProjectCardProps) => {
             Your browser does not support the video tag.
           </video>
         ) : (
+          // Use Image as fallback
           <Image
             src={project.imageSrc}
             alt={project.title}
             fill
             className="object-cover"
-            sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw"
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 33vw, 25vw"
             loading="lazy"
           />
         )}
       </div>
+      
+      {/* Rest of the component remains the same */}
       <div className="p-6 flex-grow flex flex-col">
         <h3 className={`text-xl font-bold mb-2 ${theme === 'dark' ? 'text-white' : ''}`}>{project.title}</h3>
         <p className={`${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'} mb-4 text-justify text-sm leading-relaxed flex-grow`}>
@@ -123,7 +179,7 @@ const Projects = () => {
   const [activeCategory, setActiveCategory] = useState<ProjectCategory>('all');
   const { theme } = useTheme();
   
-  // Projects data with new entries
+  // Projects data with Cloudinary video IDs
   const projects: Project[] = [
     {
       id: 1,
@@ -132,7 +188,7 @@ const Projects = () => {
       category: 'integrated',
       location: 'Caracas, Distrito Capital',
       imageSrc: "/images/projects/tecnocarlosve.jpg",
-      videoSrc: "/videos/projects/istikbal.webm"
+      cloudinaryVideoId: "https://res.cloudinary.com/da95ksabl/video/upload/v1741887137/Istikbal_zygdtw.webm" // Replace with your actual Cloudinary ID
     },
     {
       id: 2,
@@ -141,7 +197,7 @@ const Projects = () => {
       category: 'audio',
       location: 'Caracas, Distrito Capital',
       imageSrc: "/images/projects/tecnocarlosve.jpg",
-      videoSrc: "/videos/projects/fatfit.webm"
+      cloudinaryVideoId: "https://res.cloudinary.com/da95ksabl/video/upload/v1741887136/Fatfit_a0ranp.webm" // Replace with your actual Cloudinary ID
     },
     {
       id: 3,
@@ -150,7 +206,7 @@ const Projects = () => {
       category: 'integrated',
       location: 'Caracas, Distrito Capital',
       imageSrc: "/images/projects/tecnocarlosve.jpg",
-      videoSrc: "/videos/projects/adidas.webm"
+      cloudinaryVideoId: "https://res.cloudinary.com/da95ksabl/video/upload/v1741887136/Adidas_eocfpb.webm" // Replace with your actual Cloudinary ID
     },
     {
       id: 4,
@@ -159,7 +215,7 @@ const Projects = () => {
       category: 'security',
       location: 'Margarita, Nueva Esparta',
       imageSrc: "/images/projects/tecnocarlosve.jpg",
-      videoSrc: "/videos/projects/farmatodo.webm"
+      cloudinaryVideoId: "https://res.cloudinary.com/da95ksabl/video/upload/v1741887136/Farmatodo_zzrtli.webm" // Replace with your actual Cloudinary ID
     },
     {
       id: 5,
@@ -167,8 +223,8 @@ const Projects = () => {
       description: "Instalación de cableado estructurado, redes Wifi y cámaras IP en la sede del C.C Maracay Plaza.",
       category: 'networks',
       location: 'Maracay, Aragua',
-      imageSrc: "/images/projects/masxmenos.jpg",
-      videoSrc: "/videos/projects/masxmenos.webm"
+      imageSrc: "/images/projects/tecnocarlosve.jpg",
+      cloudinaryVideoId: "https://res.cloudinary.com/da95ksabl/video/upload/v1741887136/Masxmenos_udfw6c.webm" // Replace with your actual Cloudinary ID
     }
   ];
 
@@ -218,7 +274,11 @@ const Projects = () => {
         {/* Projects grid - single column on mobile, 3 on larger screens */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 lg:gap-8">
           {filteredProjects.map(project => (
-            <ProjectCard key={project.id} project={project} />
+            <ProjectCard 
+              key={`${project.id}-${activeCategory}`} 
+              project={project} 
+              activeCategory={activeCategory}
+            />
           ))}
         </div>
 

@@ -51,6 +51,7 @@ const Navbar = () => {
                 fill
                 style={{ objectFit: 'contain' }}
                 priority
+                sizes="(max-width: 768px) 150px, 200px"
               />
             </Link>
           </div>
