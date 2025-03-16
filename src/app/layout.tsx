@@ -14,7 +14,53 @@ const montserrat = Montserrat({
 
 export const metadata: Metadata = {
   title: 'TecnoCarlosVe - Soluciones de Conectividad y Seguridad',
-  description: 'Expertos en instalación y configuración de redes, sistemas de seguridad y soluciones de audio para su hogar o negocio.',
+  description: 'Expertos en instalación y configuración de redes, sistemas de seguridad y soluciones de audio para su hogar o negocio en Venezuela.',
+  keywords: 'redes, seguridad, cámaras, audio, instalación, Venezuela, Margarita, Caracas, Maracay, Barquisimeto',
+  authors: [{ name: 'TecnoCarlos' }],
+  creator: 'TecnoCarlos',
+  publisher: 'TecnoCarlos',
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
+  openGraph: {
+    type: 'website',
+    locale: 'es_VE',
+    url: 'https://tecnocarlos.com',
+    siteName: 'TecnoCarlosVe',
+    title: 'TecnoCarlosVe - Soluciones Integrales en Conectividad y Seguridad',
+    description: 'Expertos en instalación de redes, sistemas de seguridad y soluciones de audio para hogares y empresas en Venezuela.',
+    images: [
+      {
+        url: 'https://res.cloudinary.com/da95ksabl/image/upload/c_fill,g_center,h_1200,w_630/v1742133307/og-image_djaw72.jpg',
+        width: 630,
+        height: 1200,
+        alt: 'TecnoCarlosVe - Servicios de Conectividad y Seguridad',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'TecnoCarlosVe - Soluciones en Conectividad y Seguridad',
+    description: 'Servicios profesionales de instalación de redes, sistemas de seguridad y audio en Venezuela.',
+    images: ['https://res.cloudinary.com/da95ksabl/image/upload/v1742133307/og-image_djaw72.jpg'],
+  },
+  alternates: {
+    canonical: 'https://tecnocarlos.com',
+  },
+  viewport: {
+    width: 'device-width',
+    initialScale: 1,
+    maximumScale: 1,
+  },
+  category: 'technology',
 };
 
 export default function RootLayout({
