@@ -12,6 +12,13 @@ const montserrat = Montserrat({
   display: 'swap',
 });
 
+// Add viewport export
+export const viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 1,
+};
+
 export const metadata: Metadata = {
   title: 'TecnoCarlosVe - Soluciones de Conectividad y Seguridad',
   description: 'Expertos en instalación y configuración de redes, sistemas de seguridad y soluciones de audio para su hogar o negocio en Venezuela.',
@@ -55,12 +62,8 @@ export const metadata: Metadata = {
   alternates: {
     canonical: 'https://tecnocarlos.com',
   },
-  viewport: {
-    width: 'device-width',
-    initialScale: 1,
-    maximumScale: 1,
-  },
   category: 'technology',
+  // Remove viewport from here
 };
 
 export default function RootLayout({
