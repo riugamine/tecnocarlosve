@@ -116,10 +116,18 @@ const Footer = () => {
       {/* Copyright */}
       <div className="bg-dark border-t border-gray-800">
         <div className="container mx-auto px-4 py-12">
-          <div className="flex justify-center">
+          <div className="flex flex-col items-center space-y-2">
             <p className="text-gray-400 text-sm text-center">
               &copy; {currentYear} TecnoCarlos. Todos los derechos reservados.
             </p>
+            <a 
+              href="https://www.instagram.com/joseangelweb_" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="text-gray-400 hover:text-primary text-sm transition-colors"
+            >
+              Powered by @joseangelweb_
+            </a>
           </div>
         </div>
       </div>
