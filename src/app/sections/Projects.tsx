@@ -51,7 +51,6 @@ const ProjectCard = ({ project, activeCategory }: ProjectCardProps) => {
   const [isVideoLoaded, setIsVideoLoaded] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [shouldLoadVideo, setShouldLoadVideo] = useState(false);
-  const playerRef = useRef<string>(`video-${project.id}`);
 
   // Reset loading state when category changes
   useEffect(() => {
