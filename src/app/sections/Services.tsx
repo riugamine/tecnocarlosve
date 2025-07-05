@@ -17,7 +17,7 @@ const ServiceCard: FC<ServiceCardProps> = ({ icon, title, description, imageSrc 
   return (
     <div className={`${theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-white text-gray-800'} rounded-lg shadow-lg overflow-hidden transition-transform duration-300 hover:-translate-y-2`}>
       {imageSrc && (
-        <div className="relative h-48">
+        <div className="relative h-64">
           <Image 
             src={imageSrc} 
             alt={title} 
@@ -47,7 +47,7 @@ const Services = () => {
       icon: "fas fa-network-wired",
       title: "Redes y cableado estructurado",
       description: "Instalamos y configuramos todo tipo de redes para tu hogar o negocio. Desde routers y switches hasta puntos de acceso Wi-Fi para una conexión estable y segura en todos tus dispositivos.",
-      imageSrc: "/images/services/networking.jpg"
+      imageSrc: "https://res.cloudinary.com/da95ksabl/image/upload/v1751749802/photo_2025-07-05_16-44-44_z9phhs.jpg"
     },
     {
       icon: "fas fa-volume-up",
@@ -59,13 +59,13 @@ const Services = () => {
       icon: "fas fa-video",
       title: "Sistemas de seguridad",
       description: "Protege lo que más valoras con nuestras soluciones de videovigilancia. Instalamos cámaras analógicas e IP con monitoreo remoto desde tu celular para que puedas ver lo que sucede en tiempo real.",
-      imageSrc: "/images/services/security.jpg"
+      imageSrc: "https://res.cloudinary.com/da95ksabl/image/upload/v1751749801/photo_2025-07-05_16-44-47_i6jxg4.jpg"
     },
     {
       icon: "fas fa-tools",
       title: "Soporte técnico",
       description: "Ofrecemos asistencia técnica para todos nuestros servicios. Nuestro equipo está disponible para resolver cualquier problema que puedas tener con tus sistemas de conectividad o seguridad.",
-      imageSrc: "/images/services/support.jpg"
+      imageSrc: "https://res.cloudinary.com/da95ksabl/image/upload/v1751749801/photo_2025-07-05_16-44-41_zeiw7r.jpg"
     }
   ];
 
