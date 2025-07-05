@@ -4,6 +4,26 @@ import { useState, useRef, useEffect } from 'react';
 import Image from 'next/image';
 import { useTheme } from '@/app/context/ThemeContext';
 
+// Skeleton component for video loading
+const VideoSkeleton = () => {
+  const { theme } = useTheme();
+  
+  return (
+    <div className={`absolute inset-0 z-10 flex items-center justify-center ${
+      theme === 'dark' ? 'bg-gray-800' : 'bg-gray-200'
+    }`}>
+      <div className="flex flex-col items-center justify-center">
+        <div className="w-12 h-12 rounded-full bg-primary animate-pulse mb-3"></div>
+        <p className={`text-sm font-medium ${
+          theme === 'dark' ? 'text-gray-300' : 'text-gray-600'
+        }`}>
+          Cargando video...
+        </p>
+      </div>
+    </div>
+  );
+};
+
 // Define project categories
 type ProjectCategory = 'all' | 'networks' | 'security' | 'audio' | 'integrated';
 
@@ -27,67 +47,44 @@ interface ProjectCardProps {
 const ProjectCard = ({ project, activeCategory }: ProjectCardProps) => {
   const { theme } = useTheme();
   const videoRef = useRef<HTMLVideoElement>(null);
-  const [, setIsPlaying] = useState(false);
-  const [, setIsVisible] = useState(false);
+  const wrapperRef = useRef<HTMLDivElement>(null);
   const [isVideoLoaded, setIsVideoLoaded] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [shouldLoadVideo, setShouldLoadVideo] = useState(false);
   const playerRef = useRef<string>(`video-${project.id}`);
 
   // Reset loading state when category changes
   useEffect(() => {
     setIsLoading(true);
     setIsVideoLoaded(false);
+    setShouldLoadVideo(false);
   }, [activeCategory]);
 
-  // Add this new effect to handle progressive loading
+  // Lazy loading: only load video when wrapper comes into view
   useEffect(() => {
-    if (project.cloudinaryVideoId) {
-      // Set a timeout to start showing the video even if not fully loaded
-      const progressiveLoadTimer = setTimeout(() => {
-        setIsVideoLoaded(true);
-        setIsLoading(false);
-      }, 1000); // Show after 1 second regardless of load state
-      
-      return () => clearTimeout(progressiveLoadTimer);
-    }
+    const wrapper = wrapperRef.current;
+    if (!wrapper || !project.cloudinaryVideoId) return;
+    const observer = new window.IntersectionObserver(
+      (entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            setShouldLoadVideo(true);
+          }
+        });
+      },
+      {
+        threshold: 0.1,
+        rootMargin: '50px',
+      }
+    );
+    observer.observe(wrapper);
+    return () => {
+      observer.disconnect();
+    };
   }, [project.cloudinaryVideoId, activeCategory]);
-
-  useEffect(() => {
-    // Lazy load videos when they come into view
-    if (videoRef.current && project.videoSrc && !project.cloudinaryVideoId) {
-      const videoElement = videoRef.current;
-      
-      const observer = new IntersectionObserver(
-        (entries) => {
-          entries.forEach(entry => {
-            if (entry.isIntersecting) {
-              setIsVisible(true);
-              videoElement.load();
-              videoElement.play()
-                .then(() => setIsPlaying(true))
-                .catch(e => console.log("Auto-play prevented:", e));
-            } else {
-              setIsVisible(false);
-              videoElement.pause();
-              setIsPlaying(false);
-            }
-          });
-        },
-        { threshold: 0.1 }
-      );
-      
-      observer.observe(videoElement);
-      
-      return () => {
-        observer.unobserve(videoElement);
-        videoElement.pause();
-      };
-    }
-  }, [project.videoSrc, project.cloudinaryVideoId]);
 
   // Handle video load event
   const handleVideoLoaded = () => {
-    // Start showing the video as soon as metadata is loaded
     setIsVideoLoaded(true);
     setIsLoading(false);
   };
@@ -100,67 +97,50 @@ const ProjectCard = ({ project, activeCategory }: ProjectCardProps) => {
 
   return (
     <div className={`${theme === 'dark' ? 'bg-gray-700' : 'bg-white'} rounded-lg shadow-lg overflow-hidden h-full flex flex-col`}>
-      <div className="relative h-64 overflow-hidden">
-        {/* Simplified loading indicator - only pulsing circle */}
-        {project.cloudinaryVideoId && isLoading && (
-          <div className="absolute inset-0 z-10 flex items-center justify-center bg-gray-800">
-            <div className="flex flex-col items-center justify-center">
-              <div className="w-11 h-11 rounded-full bg-primary animate-pulse mb-3"></div>
-              <p className="text-white text-sm font-medium">Cargando video...</p>
-            </div>
-          </div>
-        )}
+      <div ref={wrapperRef} className="relative h-64 overflow-hidden">
+        {/* Show skeleton while loading */}
+        {project.cloudinaryVideoId && shouldLoadVideo && isLoading && <VideoSkeleton />}
         
-        {project.cloudinaryVideoId ? (
-          // Use regular video tag with cloudinary URL
-          <video 
-            id={playerRef.current}
-            className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-300 ${isVideoLoaded ? 'opacity-100' : 'opacity-0'}`}
+        {/* Show poster image initially */}
+        <Image
+          src={project.imageSrc}
+          alt={project.title}
+          fill
+          className={`object-cover transition-opacity duration-300 ${
+            project.cloudinaryVideoId && isVideoLoaded ? 'opacity-0' : 'opacity-100'
+          }`}
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 33vw, 25vw"
+          loading="lazy"
+        />
+        
+        {/* Lazy load video only when in view */}
+        {project.cloudinaryVideoId && shouldLoadVideo && (
+          <video
+            ref={videoRef}
+            className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ${
+              isVideoLoaded ? 'opacity-100' : 'opacity-0'
+            }`}
             muted
             loop
             playsInline
             autoPlay
-            preload="auto"
+            preload="metadata"
             poster={project.imageSrc}
             onLoadedMetadata={handleVideoLoaded}
             onError={handleVideoError}
-            key={`video-${project.id}-${activeCategory}-${isVideoLoaded ? 'loaded' : 'loading'}`}
+            key={`video-${project.id}-${activeCategory}-${shouldLoadVideo ? 'load' : 'wait'}`}
           >
-            <source src={project.cloudinaryVideoId} type="video/webm" />
-            <source src={project.cloudinaryVideoId.replace('.webm', '.mp4')} type="video/mp4" />
+            <source src={project.cloudinaryVideoId} type="video/mp4" />
+            <source src={project.cloudinaryVideoId.replace('.mp4', '.webm')} type="video/webm" />
             Your browser does not support the video tag.
           </video>
-        ) : project.videoSrc ? (
-          // Fallback to regular video if no cloudinaryVideoId but videoSrc exists
-          <video 
-            ref={videoRef}
-            className="absolute inset-0 w-full h-full object-cover"
-            muted
-            loop
-            playsInline
-            preload="none"
-            poster={project.imageSrc}
-          >
-            <source src={project.videoSrc} type="video/mp4" />
-            Your browser does not support the video tag.
-          </video>
-        ) : (
-          // Use Image as fallback
-          <Image
-            src={project.imageSrc}
-            alt={project.title}
-            fill
-            className="object-cover"
-            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 33vw, 25vw"
-            loading="lazy"
-          />
         )}
       </div>
       
       {/* Rest of the component remains the same */}
       <div className="p-6 flex-grow flex flex-col">
         <h3 className={`text-xl font-bold mb-2 ${theme === 'dark' ? 'text-white' : ''}`}>{project.title}</h3>
-        <p className={`${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'} mb-4 text-justify text-sm leading-relaxed flex-grow`}>
+        <p className={`${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'} mb-4 text-sm leading-relaxed flex-grow`}>
           {project.description}
         </p>
         <div className={`flex items-center text-sm ${theme === 'dark' ? 'text-gray-400' : 'text-gray-500'} mt-auto`}>
@@ -223,6 +203,51 @@ const Projects = () => {
       location: 'Maracay, Aragua',
       imageSrc: "/images/projects/tecnocarlosve.jpg",
       cloudinaryVideoId: "https://res.cloudinary.com/da95ksabl/video/upload/v1741887136/Masxmenos_udfw6c.webm"
+    },
+    {
+      id: 6,
+      title: "Instalación integral para Calvin Klein",
+      description: "Cableado estructurado (Data), instalación de cámaras análogas y sistema de sonido ambiental en tienda Calvin Klein C.C Los Aviadores.",
+      category: 'integrated',
+      location: 'Maracay, Aragua',
+      imageSrc: "/images/projects/tecnocarlosve.jpg",
+      cloudinaryVideoId: "https://res.cloudinary.com/da95ksabl/video/upload/v1751750396/Maracay_C.C_Los_Aviadores_Tiendas_Calvin_Klein_i5falb.mp4"
+    },
+    {
+      id: 7,
+      title: "Instalación integral para Clark",
+      description: "Cableado estructurado (Data), instalación de cámaras análogas y sistema de sonido ambiental en tienda Clark C.C Los Aviadores.",
+      category: 'integrated',
+      location: 'Maracay, Aragua',
+      imageSrc: "/images/projects/tecnocarlosve.jpg",
+      cloudinaryVideoId: "https://res.cloudinary.com/da95ksabl/video/upload/v1751750395/Maracay_C.C_Los_Aviadores_Tiendas_Clark_twnd5d.mp4"
+    },
+    {
+      id: 8,
+      title: "Instalación integral para The Children's Place",
+      description: "Cableado estructurado (Data), instalación de cámaras análogas y sistema de sonido ambiental en tienda The Children's Place C.C Los Aviadores.",
+      category: 'integrated',
+      location: 'Maracay, Aragua',
+      imageSrc: "/images/projects/tecnocarlosve.jpg",
+      cloudinaryVideoId: "https://res.cloudinary.com/da95ksabl/video/upload/v1751750394/Maracay_C.C_Los_Aviadores_Tiendas_The_Children_Place_mbkibx.mp4"
+    },
+    {
+      id: 9,
+      title: "Instalación integral para Samsonite",
+      description: "Cableado estructurado (Data), instalación de cámaras análogas y sistema de sonido ambiental en tienda Samsonite C.C Sambil Barquisimeto.",
+      category: 'integrated',
+      location: 'Barquisimeto, Lara',
+      imageSrc: "/images/projects/tecnocarlosve.jpg",
+      cloudinaryVideoId: "https://res.cloudinary.com/da95ksabl/video/upload/v1751751395/Barquisimeto_C.C_Sambil_Tienda_Samsonite_ag6lvw.mp4"
+    },
+    {
+      id: 10,
+      title: "Instalación integral para American Eagle",
+      description: "Cableado estructurado (Data), instalación de cámaras análogas y sistema de sonido ambiental en tienda American Eagle C.C Sambil Barquisimeto.",
+      category: 'integrated',
+      location: 'Barquisimeto, Lara',
+      imageSrc: "/images/projects/tecnocarlosve.jpg",
+      cloudinaryVideoId: "https://res.cloudinary.com/da95ksabl/video/upload/v1751751394/Barquisimeto_C.C_Sambil_Tienda_American_Eagle_bjtvmi.mp4"
     }
   ];
 

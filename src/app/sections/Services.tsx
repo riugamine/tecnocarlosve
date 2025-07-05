@@ -33,7 +33,7 @@ const ServiceCard: FC<ServiceCardProps> = ({ icon, title, description, imageSrc 
           <i className={icon}></i>
         </div>
         <h3 className="text-xl font-bold mb-3">{title}</h3>
-        <p className={`${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'} text-justify text-sm leading-relaxed`}>{description}</p>
+        <p className={`${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'} text-sm leading-relaxed`}>{description}</p>
       </div>
     </div>
   );
