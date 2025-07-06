@@ -205,48 +205,21 @@ const Projects = () => {
     },
     {
       id: 6,
-      title: "Instalación integral para Calvin Klein",
-      description: "Cableado estructurado (Data), instalación de cámaras análogas y sistema de sonido ambiental en tienda Calvin Klein C.C Los Aviadores.",
+      title: "Instalación integral para tiendas en Maracay",
+      description: "Cableado estructurado (Data), instalación de cámaras análogas y sistema de sonido ambiental en tiendas Calvin Klein, Clark y The Children's Place C.C Los Aviadores.",
       category: 'integrated',
       location: 'Maracay, Aragua',
       imageSrc: "/images/projects/tecnocarlosve.jpg",
-      cloudinaryVideoId: "https://res.cloudinary.com/da95ksabl/video/upload/v1751750396/Maracay_C.C_Los_Aviadores_Tiendas_Calvin_Klein_i5falb.mp4"
+      cloudinaryVideoId: "https://res.cloudinary.com/da95ksabl/video/upload/v1751812821/Maracay_C.C_Los_Aviadores_Tiendas_Calvin_Klein_Clark_Y_The_Children_Place_waycf9.mp4"
     },
     {
       id: 7,
-      title: "Instalación integral para Clark",
-      description: "Cableado estructurado (Data), instalación de cámaras análogas y sistema de sonido ambiental en tienda Clark C.C Los Aviadores.",
-      category: 'integrated',
-      location: 'Maracay, Aragua',
-      imageSrc: "/images/projects/tecnocarlosve.jpg",
-      cloudinaryVideoId: "https://res.cloudinary.com/da95ksabl/video/upload/v1751750395/Maracay_C.C_Los_Aviadores_Tiendas_Clark_twnd5d.mp4"
-    },
-    {
-      id: 8,
-      title: "Instalación integral para The Children's Place",
-      description: "Cableado estructurado (Data), instalación de cámaras análogas y sistema de sonido ambiental en tienda The Children's Place C.C Los Aviadores.",
-      category: 'integrated',
-      location: 'Maracay, Aragua',
-      imageSrc: "/images/projects/tecnocarlosve.jpg",
-      cloudinaryVideoId: "https://res.cloudinary.com/da95ksabl/video/upload/v1751750394/Maracay_C.C_Los_Aviadores_Tiendas_The_Children_Place_mbkibx.mp4"
-    },
-    {
-      id: 9,
-      title: "Instalación integral para Samsonite",
-      description: "Cableado estructurado (Data), instalación de cámaras análogas y sistema de sonido ambiental en tienda Samsonite C.C Sambil Barquisimeto.",
+      title: "Instalación integral para tiendas en Barquisimeto",
+      description: "Cableado estructurado (Data), instalación de cámaras análogas y sistema de sonido ambiental en tiendas Samsonite y American Eagle C.C Sambil Barquisimeto.",
       category: 'integrated',
       location: 'Barquisimeto, Lara',
       imageSrc: "/images/projects/tecnocarlosve.jpg",
-      cloudinaryVideoId: "https://res.cloudinary.com/da95ksabl/video/upload/v1751751395/Barquisimeto_C.C_Sambil_Tienda_Samsonite_ag6lvw.mp4"
-    },
-    {
-      id: 10,
-      title: "Instalación integral para American Eagle",
-      description: "Cableado estructurado (Data), instalación de cámaras análogas y sistema de sonido ambiental en tienda American Eagle C.C Sambil Barquisimeto.",
-      category: 'integrated',
-      location: 'Barquisimeto, Lara',
-      imageSrc: "/images/projects/tecnocarlosve.jpg",
-      cloudinaryVideoId: "https://res.cloudinary.com/da95ksabl/video/upload/v1751751394/Barquisimeto_C.C_Sambil_Tienda_American_Eagle_bjtvmi.mp4"
+      cloudinaryVideoId: "https://res.cloudinary.com/da95ksabl/video/upload/v1751812833/Barquisimeto_C.C_Sambil_Tienda_Samsonite_Y_American_Eagle_dmbqyz.mp4"
     }
   ];
 
